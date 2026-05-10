@@ -1,0 +1,43 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@layer base {
+  :root {
+    /* ライトモードの標準値 */
+    --color-primary: #3b82f6;     /* Blue 500 */
+    --color-secondary: #64748b;   /* Slate 500 */
+    --color-accent: #f59e0b;      /* Amber 500 */
+
+    --color-bg-base: #ffffff;
+    --color-bg-sunken: #f8fafc;
+    --color-bg-elevated: #ffffff;
+
+    --color-text-main: #0f172a;
+    --color-text-muted: #64748b;
+    --color-text-inverse: #ffffff;
+  }
+
+  .dark {
+    /* ダークモードの標準値（反転させる） */
+    --color-bg-base: #0f172a;
+    --color-bg-sunken: #020617;
+    --color-text-main: #f8fafc;
+    --color-text-muted: #94a3b8;
+  }
+
+  html {
+    /* 日本語の禁則処理を適切に行う（句読点を行頭に置かない） */
+    line-break: strict;
+    /* 英単語が混ざっても適切な位置で折り返す */
+    overflow-wrap: anywhere;
+    /* テキストのレンダリングを最適化 */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  p {
+    /* 自然な改行（モダンブラウザ向け） */
+    word-break: normal;
+  }
+}
