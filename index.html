@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="ja" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind Design System — Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===== DESIGN SYSTEM VARIABLES (mirrors global.css + config.js) ===== */
+    :root {
+      --color-primary:   #3b82f6;
+      --color-secondary: #64748b;
+      --color-accent:    #f59e0b;
+
+      --color-bg-base:     #ffffff;
+      --color-bg-sunken:   #f8fafc;
+      --color-bg-elevated: #ffffff;
+
+      --color-text-main:    #0f172a;
+      --color-text-muted:   #64748b;
+      --color-text-inverse: #ffffff;
+
+      --shadow-soft:     0 4px 20px -2px rgba(0,0,0,0.05);
+      --shadow-elevated: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+
+      --max-w: 880px;
+    }
+
+    html.dark {
+      --color-bg-base:     #0f172a;
+      --color-bg-sunken:   #020617;
+      --color-bg-elevated: #1e293b;
+      --color-text-main:   #f8fafc;
+      --color-text-muted:  #94a3b8;
+      --shadow-soft:       0 4px 20px -2px rgba(0,0,0,0.4);
+      --shadow-elevated:   0 20px 25px -5px rgba(0,0,0,0.6), 0 10px 10px -5px rgba(0,0,0,0.3);
+    }
+
+    html {
+      line-break: strict;
+      overflow-wrap: anywhere;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--color-bg-base);
+      color: var(--color-text-main);
+      line-height: 1.7;
+      transition: background 0.35s, color 0.35s;
+    }
+
+    p { word-break: normal; }
+
+    .f-display { font-family: 'Syne', sans-serif; }
+    .f-mono    { font-family: 'Fira Code', monospace; }
+
+    /* ===== LAYOUT ===== */
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(148,163,184,0.1);
+      padding: 0.9rem 0;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--color-bg-base) 88%, transparent);
+      transition: background 0.35s;
+    }
+
+    .header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .logo::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      flex-shrink: 0;
+    }
+
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--color-bg-sunken);
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 999px;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .theme-btn:hover {
+      color: var(--color-text-main);
+      border-color: var(--color-primary);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 7rem 0 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -5%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--color-accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-eyebrow::before { content: '//'; color: var(--color-text-muted); }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3.2rem, 9vw, 5.8rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+    .hero-title .blue { color: var(--color-primary); }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      max-width: 520px;
+      line-height: 1.85;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      color: var(--color-text-main);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.05em;
+      margin-top: 0.2rem;
+    }
+
+    /* ===== DIVIDER ===== */
+    .hr {
+      height: 1px;
+      background: linear-gradient(to right, var(--color-accent) 0%, rgba(245,158,11,0.1) 40%, transparent 80%);
+      opacity: 0.45;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 5.5rem 0;
+      position: relative;
+    }
+
+    .section-ghost {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 9rem;
+      color: var(--color-accent);
+      opacity: 0.04;
+      position: absolute;
+      top: 1.5rem;
+      right: 1rem;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .section-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-h {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 2.1rem;
+      color: var(--color-text-main);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-sub {
+      color: var(--color-text-muted);
+      font-size: 0.92rem;
+      max-width: 580px;
+      margin-bottom: 3.5rem;
+      line-height: 1.8;
+    }
+
+    /* Sub headings */
+    .sub-h {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--color-text-main);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .sub-h::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(148,163,184,0.15), transparent);
+    }
+
+    .sub-desc {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1.4rem;
+      line-height: 1.75;
+    }
+
+    .subsection { margin-bottom: 4rem; }
+
+    /* ===== COLOR SWATCHES ===== */
+    .color-group-lbl {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+    }
+
+    .swatch { cursor: default; }
+
+    .swatch-chip {
+      width: 82px;
+      height: 56px;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.15);
+      margin-bottom: 0.45rem;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .swatch:hover .swatch-chip {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-elevated);
+    }
+    .sw-name { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--color-text-main); line-height: 1.5; }
+    .sw-hex  { font-family: 'Fira Code', monospace; font-size: 0.58rem; color: var(--color-text-muted); }
+    .sw-var  { font-family: 'Fira Code', monospace; font-size: 0.55rem; color: var(--color-accent); opacity: 0.85; }
+
+    /* Dark/Light comparison */
+    .theme-cmp {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(148,163,184,0.1);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-top: 1.75rem;
+      border: 1px solid rgba(148,163,184,0.08);
+    }
+    .tp { padding: 1.5rem; }
+    .tp.lp { background: #ffffff; }
+    .tp.dp { background: #0f172a; }
+    .tp-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+    .lp .tp-label { color: #64748b; }
+    .dp .tp-label { color: #94a3b8; }
+
+    .tp-rows { display: flex; flex-direction: column; gap: 0.4rem; }
+    .tp-bar {
+      height: 26px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      padding: 0 0.6rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.6rem;
+    }
+
+    /* ===== FONT STACKS ===== */
+    .font-block {
+      background: var(--color-bg-sunken);
+      border: 1px solid rgba(148,163,184,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 0.9rem;
+    }
+    .font-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 1.2rem;
+      border-bottom: 1px solid rgba(148,163,184,0.08);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .font-key   { font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--color-accent); }
+    .font-stack { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--color-text-muted); }
+    .font-preview { padding: 1.25rem 1.2rem; }
+
+    .fp-sans {
+      font-family: 'Inter', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      color: var(--color-text-main);
+    }
+    .fp-mono {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 1.1rem;
+      color: var(--color-text-main);
+    }
+    .fp-display {
+      font-size: 1.3rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    /* ===== SHADOWS ===== */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+    .shadow-card {
+      background: var(--color-bg-elevated);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: transform 0.2s;
+      border: 1px solid rgba(148,163,184,0.06);
+    }
+    .shadow-card:hover { transform: translateY(-4px); }
+    .shadow-card.s-soft     { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05); }
+    .shadow-card.s-elevated { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+    html.dark .shadow-card.s-soft     { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.4); }
+    html.dark .shadow-card.s-elevated { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.6), 0 10px 10px -5px rgba(0,0,0,0.3); }
+
+    .sh-tag  { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--color-accent); margin-bottom: 0.4rem; }
+    .sh-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.05rem; color: var(--color-text-main); margin-bottom: 0.3rem; }
+    .sh-val  { font-family: 'Fira Code', monospace; font-size: 0.6rem; color: var(--color-text-muted); line-height: 1.7; }
+    .sh-note { margin-top: 0.75rem; font-size: 0.78rem; color: var(--color-text-muted); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fade-in {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes slide-up {
+      0%   { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blob {
+      0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      25%  { border-radius: 40% 60% 60% 40% / 30% 60% 40% 70%; }
+      50%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      75%  { border-radius: 50% 40% 50% 60% / 60% 40% 60% 40%; }
+      100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    }
+
+    .anim-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+    .anim-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid rgba(148,163,184,0.08);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .anim-stage {
+      height: 82px;
+      background: var(--color-bg-sunken);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .anim-el {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: var(--color-primary);
+    }
+    .el-fade  { animation: fade-in 0.3s ease-out infinite alternate; }
+    .el-slide { animation: slide-up 0.4s cubic-bezier(0.16,1,0.3,1) infinite alternate; }
+    .el-blob {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      opacity: 0.8;
+      animation: blob 7s infinite;
+    }
+    .anim-name   { font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--color-accent); margin-bottom: 0.2rem; }
+    .anim-timing { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--color-text-muted); }
+
+    /* ===== BREAKPOINTS ===== */
+    .bp-box {
+      background: var(--color-bg-sunken);
+      border-radius: 14px;
+      padding: 2rem;
+      overflow-x: auto;
+    }
+    .bp-ruler {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 56px;
+      margin-bottom: 0.75rem;
+    }
+    .bp-bar {
+      flex: 1;
+      border-radius: 5px 5px 0 0;
+      background: var(--color-primary);
+      opacity: 0.55;
+      transition: opacity 0.2s;
+    }
+    .bp-bar:hover { opacity: 1; }
+    .bp-bar.sm  { height: 20%; }
+    .bp-bar.md  { height: 40%; }
+    .bp-bar.lg  { height: 60%; }
+    .bp-bar.xl  { height: 80%; }
+    .bp-bar.xxl { height: 100%; }
+
+    .bp-labels {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+      text-align: center;
+    }
+    .bp-nm { font-family: 'Fira Code', monospace; font-size: 0.72rem; font-weight: 500; color: var(--color-accent); display: block; }
+    .bp-px { font-family: 'Fira Code', monospace; font-size: 0.6rem; color: var(--color-text-muted); }
+
+    /* ===== CODE BLOCK ===== */
+    .code {
+      background: #020617;
+      border: 1px solid rgba(148,163,184,0.06);
+      border-left: 2px solid var(--color-accent);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.25rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      line-height: 1.85;
+      overflow-x: auto;
+      color: #94a3b8;
+      margin-top: 0.75rem;
+    }
+    .t-cmt  { color: #475569; }
+    .t-str  { color: #86efac; }
+    .t-cls  { color: #f59e0b; }
+    .t-prop { color: #93c5fd; }
+
+    /* ===== UNFORMALIZED SECTION ===== */
+    .unfm-wrap {
+      background: color-mix(in srgb, var(--color-bg-sunken) 60%, transparent);
+      border: 1px solid rgba(245,158,11,0.1);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .unfm-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(245,158,11,0.025) 0px,
+        rgba(245,158,11,0.025) 1px,
+        transparent 1px,
+        transparent 14px
+      );
+      pointer-events: none;
+    }
+
+    .unfm-item { margin-bottom: 3rem; }
+    .unfm-item:last-child { margin-bottom: 0; }
+
+    .unfm-h {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--color-text-main);
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.58rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(245,158,11,0.15);
+      color: var(--color-accent);
+      letter-spacing: 0.05em;
+    }
+
+    .unfm-text {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.78;
+      margin-bottom: 0.6rem;
+      max-width: 640px;
+    }
+
+    /* ===== THEME TABLE ===== */
+    .t-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+      margin-top: 1rem;
+    }
+    .t-table th {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      padding: 0.7rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(148,163,184,0.1);
+    }
+    .t-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid rgba(148,163,184,0.04);
+      vertical-align: top;
+      color: var(--color-text-main);
+      line-height: 1.65;
+    }
+    .t-table tr:last-child td { border-bottom: none; }
+    .t-table td:first-child { font-family: 'Syne', sans-serif; font-weight: 600; white-space: nowrap; }
+
+    /* ===== CALLOUT ===== */
+    .callout {
+      margin-top: 1.2rem;
+      padding: 1.2rem 1.4rem;
+      background: rgba(245,158,11,0.07);
+      border-radius: 10px;
+      border-left: 2px solid var(--color-accent);
+    }
+    .callout p { font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.78; }
+    .callout strong.a { color: var(--color-accent); }
+    .callout strong.b { color: var(--color-primary); }
+
+    /* ===== MAINTENANCE ===== */
+    .mnt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+    .mnt-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid rgba(148,163,184,0.08);
+      border-radius: 14px;
+      padding: 1.6rem;
+      transition: border-color 0.2s;
+    }
+    .mnt-card:hover { border-color: rgba(59,130,246,0.4); }
+    .mnt-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.8rem;
+      color: var(--color-accent);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+    .mnt-trigger { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.95rem; color: var(--color-text-main); margin-bottom: 0.4rem; }
+    .mnt-action  { font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.65; }
+    .mnt-file {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      color: var(--color-primary);
+      background: rgba(59,130,246,0.1);
+      padding: 0.22rem 0.55rem;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid rgba(148,163,184,0.08);
+      padding: 3.5rem 0;
+      margin-top: 3rem;
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .fh { font-family: 'Fira Code', monospace; font-size: 0.66rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .file-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .file-list li {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--color-text-main);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .file-list li::before { content: '→'; color: var(--color-accent); font-size: 0.62rem; flex-shrink: 0; }
+    .file-desc { color: var(--color-text-muted); font-size: 0.65rem; }
+    .footer-copy { font-family: 'Fira Code', monospace; font-size: 0.64rem; color: var(--color-text-muted); text-align: right; }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .shadow-grid, .anim-grid, .mnt-grid { grid-template-columns: 1fr; }
+      .theme-cmp { grid-template-columns: 1fr; }
+      .hero-title { font-size: 3rem; }
+      .section-ghost { font-size: 5.5rem; }
+      .unfm-wrap { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">Tailwind Design System</div>
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+        <span id="themeIcon">&#9728;</span>
+        <span id="themeLabel">light</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-eyebrow">design system reference</div>
+        <h1 class="hero-title">
+          Tailwind<br>
+          <span class="blue">Design</span><br>
+          System
+        </h1>
+        <p class="hero-desc">
+          最低限の標準化されたデザインへ、論理的でメンテナンス性の高いフロントエンド設計のための標準化ガイド。
+          標準化すべき要素と、あえて形式化しない領域を明確に整理します。
+        </p>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">9</div>
+            <div class="stat-lbl">color tokens</div>
+          </div>
+          <div>
+            <div class="stat-num">3</div>
+            <div class="stat-lbl">animations</div>
+          </div>
+          <div>
+            <div class="stat-num">2</div>
+            <div class="stat-lbl">shadows</div>
+          </div>
+          <div>
+            <div class="stat-num">5</div>
+            <div class="stat-lbl">breakpoints</div>
+          </div>
+          <div>
+            <div class="stat-num">3</div>
+            <div class="stat-lbl">font stacks</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- ======================== SECTION 01 ======================== -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-ghost">01</div>
+        <div class="section-tag">section 01</div>
+        <h2 class="section-h">&#x6A19;&#x6E96;&#x5316;&#x3055;&#x308C;&#x305F;&#x9818;&#x57DF;</h2>
+        <p class="section-sub">
+          <code class="f-mono" style="font-size:0.8rem; color:var(--color-accent)">tailwind.config.js</code> と
+          <code class="f-mono" style="font-size:0.8rem; color:var(--color-accent)">global.css</code>
+          で定義された、プロジェクト全体の一貫性を担う要素群。これらが「デザインの文法」となります。
+        </p>
+
+        <!-- COLOR SYSTEM -->
+        <div class="subsection reveal">
+          <h3 class="sub-h">カラーシステム</h3>
+          <p class="sub-desc">
+            生の色名（<code class="f-mono" style="font-size:0.75rem">blue-500</code>）ではなく役割ベースのセマンティック名で定義。
+            CSS変数を介して Tailwind クラスと紐付けるため、デザイン変更は
+            <code class="f-mono" style="font-size:0.75rem">global.css</code> の変数一行だけで全体に伝播します。
+          </p>
+
+          <div class="color-group-lbl">brand — ブランドカラー</div>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#3b82f6;"></div>
+              <div class="sw-name">brand.primary</div>
+              <div class="sw-hex">#3b82f6</div>
+              <div class="sw-var">--color-primary</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#64748b;"></div>
+              <div class="sw-name">brand.secondary</div>
+              <div class="sw-hex">#64748b</div>
+              <div class="sw-var">--color-secondary</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#f59e0b;"></div>
+              <div class="sw-name">brand.accent</div>
+              <div class="sw-hex">#f59e0b</div>
+              <div class="sw-var">--color-accent</div>
+            </div>
+          </div>
+
+          <div class="color-group-lbl">surface — 背景・面のカラー（ライトモード値）</div>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#ffffff; border-color:#dde1e7;"></div>
+              <div class="sw-name">surface.base</div>
+              <div class="sw-hex">#ffffff</div>
+              <div class="sw-var">--color-bg-base</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#f8fafc; border-color:#dde1e7;"></div>
+              <div class="sw-name">surface.sunken</div>
+              <div class="sw-hex">#f8fafc</div>
+              <div class="sw-var">--color-bg-sunken</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#ffffff; border-color:#dde1e7;"></div>
+              <div class="sw-name">surface.elevated</div>
+              <div class="sw-hex">#ffffff</div>
+              <div class="sw-var">--color-bg-elevated</div>
+            </div>
+          </div>
+
+          <div class="color-group-lbl">content — テキストカラー（ライトモード値）</div>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#0f172a;"></div>
+              <div class="sw-name">content.main</div>
+              <div class="sw-hex">#0f172a</div>
+              <div class="sw-var">--color-text-main</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#64748b;"></div>
+              <div class="sw-name">content.muted</div>
+              <div class="sw-hex">#64748b</div>
+              <div class="sw-var">--color-text-muted</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-chip" style="background:#ffffff; border-color:#dde1e7;"></div>
+              <div class="sw-name">content.inverse</div>
+              <div class="sw-hex">#ffffff</div>
+              <div class="sw-var">--color-text-inverse</div>
+            </div>
+          </div>
+
+          <div class="theme-cmp">
+            <div class="tp lp">
+              <div class="tp-label">☀ Light Mode &nbsp;:root</div>
+              <div class="tp-rows">
+                <div class="tp-bar" style="background:#f8fafc; color:#475569;">bg-base: #ffffff</div>
+                <div class="tp-bar" style="background:#f1f5f9; color:#475569;">bg-sunken: #f8fafc</div>
+                <div class="tp-bar" style="background:#0f172a; color:#f8fafc;">text-main: #0f172a</div>
+                <div class="tp-bar" style="background:#64748b; color:#f8fafc;">text-muted: #64748b</div>
+              </div>
+            </div>
+            <div class="tp dp">
+              <div class="tp-label">☾ Dark Mode &nbsp;.dark</div>
+              <div class="tp-rows">
+                <div class="tp-bar" style="background:#0f172a; color:#94a3b8;">bg-base: #0f172a</div>
+                <div class="tp-bar" style="background:#020617; color:#94a3b8;">bg-sunken: #020617</div>
+                <div class="tp-bar" style="background:#f8fafc; color:#0f172a;">text-main: #f8fafc</div>
+                <div class="tp-bar" style="background:#94a3b8; color:#020617;">text-muted: #94a3b8</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TYPOGRAPHY -->
+        <div class="subsection reveal">
+          <h3 class="sub-h">タイポグラフィ</h3>
+          <p class="sub-desc">
+            日英混在の現実を考慮した3段階のフォントスタック。
+            <code class="f-mono" style="font-size:0.75rem; color:var(--color-accent)">font-sans</code> /
+            <code class="f-mono" style="font-size:0.75rem; color:var(--color-accent)">font-mono</code> /
+            <code class="f-mono" style="font-size:0.75rem; color:var(--color-accent)">font-display</code>
+            で用途を使い分けます。<code class="f-mono" style="font-size:0.75rem">display</code> スロットは強いテーマデザイン用の差し替え口です。
+          </p>
+
+          <div class="font-block">
+            <div class="font-header">
+              <span class="font-key">font-sans</span>
+              <span class="font-stack">"Inter", "Hiragino Sans", "Noto Sans JP", sans-serif</span>
+            </div>
+            <div class="font-preview">
+              <div class="fp-sans">The quick brown fox.
+                <span style="font-size:0.95rem; opacity:0.7;">日本語と English の混在テキスト。漢字・ひらがな・カタカナ全対応。</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="font-block">
+            <div class="font-header">
+              <span class="font-key">font-mono</span>
+              <span class="font-stack">"JetBrains Mono", monospace</span>
+            </div>
+            <div class="font-preview">
+              <div class="fp-mono">const config = { darkMode: 'class', theme: { extend: {} } }</div>
+            </div>
+          </div>
+
+          <div class="font-block">
+            <div class="font-header">
+              <span class="font-key">font-display</span>
+              <span class="font-stack">"YourCustomFont", cursive — カスタムスロット（未指定）</span>
+            </div>
+            <div class="font-preview">
+              <div class="fp-display">手書き・装飾・テーマフォントをここに差し込む</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHADOWS -->
+        <div class="subsection reveal">
+          <h3 class="sub-h">シャドウ</h3>
+          <p class="sub-desc">
+            モダンデザインの「浮き感」を表現する2段階のシャドウ定義。
+            ダークモード時は自動的に強度が変わります（右上のトグルで確認できます）。
+          </p>
+          <div class="shadow-grid">
+            <div class="shadow-card s-soft">
+              <div class="sh-tag">shadow-soft</div>
+              <div class="sh-name">ソフトシャドウ</div>
+              <div class="sh-val">0 4px 20px -2px rgba(0,0,0,0.05)</div>
+              <div class="sh-note">カード・インプット・サブ要素。主張しない浮き感。</div>
+            </div>
+            <div class="shadow-card s-elevated">
+              <div class="sh-tag">shadow-elevated</div>
+              <div class="sh-name">エレベーテッド</div>
+              <div class="sh-val">0 20px 25px -5px rgba(0,0,0,0.1),<br>0 10px 10px -5px rgba(0,0,0,0.04)</div>
+              <div class="sh-note">モーダル・ドロップダウン・CTA ボタン。</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANIMATIONS -->
+        <div class="subsection reveal">
+          <h3 class="sub-h">アニメーション</h3>
+          <p class="sub-desc">
+            サイトの「性格」を決めるコアアニメーション3種。ループ再生で動きを確認できます。
+            汎用的なものを <code class="f-mono" style="font-size:0.75rem">config</code> に登録し、
+            クラス名 <code class="f-mono" style="font-size:0.75rem">animate-fade-in</code> 等で使用します。
+          </p>
+          <div class="anim-grid">
+            <div class="anim-card">
+              <div class="anim-stage">
+                <div class="anim-el el-fade"></div>
+              </div>
+              <div>
+                <div class="anim-name">animate-fade-in</div>
+                <div class="anim-timing">0.3s · ease-out</div>
+              </div>
+            </div>
+            <div class="anim-card">
+              <div class="anim-stage">
+                <div class="anim-el el-slide"></div>
+              </div>
+              <div>
+                <div class="anim-name">animate-slide-up</div>
+                <div class="anim-timing">0.4s · cubic-bezier(0.16, 1, 0.3, 1)</div>
+              </div>
+            </div>
+            <div class="anim-card">
+              <div class="anim-stage">
+                <div class="el-blob"></div>
+              </div>
+              <div>
+                <div class="anim-name">animate-blob</div>
+                <div class="anim-timing">7s · infinite · border-radius morph</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BREAKPOINTS -->
+        <div class="subsection reveal">
+          <h3 class="sub-h">ブレークポイント</h3>
+          <p class="sub-desc">
+            モバイルファースト設計。<code class="f-mono" style="font-size:0.75rem">sm:</code> から始め、
+            大きな画面に向けてスタイルを上書きしていくアプローチ。Tailwind の標準値を継承しています。
+          </p>
+          <div class="bp-box">
+            <div class="bp-ruler">
+              <div class="bp-bar sm"></div>
+              <div class="bp-bar md"></div>
+              <div class="bp-bar lg"></div>
+              <div class="bp-bar xl"></div>
+              <div class="bp-bar xxl"></div>
+            </div>
+            <div class="bp-labels">
+              <div><span class="bp-nm">sm</span><span class="bp-px">640px</span></div>
+              <div><span class="bp-nm">md</span><span class="bp-px">768px</span></div>
+              <div><span class="bp-nm">lg</span><span class="bp-px">1024px</span></div>
+              <div><span class="bp-nm">xl</span><span class="bp-px">1280px</span></div>
+              <div><span class="bp-nm">2xl</span><span class="bp-px">1536px</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DARK MODE -->
+        <div class="subsection reveal">
+          <h3 class="sub-h">ダークモード戦略</h3>
+          <p class="sub-desc">
+            <code class="f-mono" style="font-size:0.75rem">darkMode: 'class'</code> を採用。
+            JavaScript から <code class="f-mono" style="font-size:0.75rem">html</code> 要素に
+            <code class="f-mono" style="font-size:0.75rem">.dark</code> を付け外しするだけで全体が切り替わります。
+          </p>
+          <div class="code">
+<span class="t-cmt">// tailwind.config.js</span>
+<span class="t-prop">darkMode</span>: <span class="t-str">'class'</span>,
+
+<span class="t-cmt">// global.css — 変数の上書きのみでテーマ切り替えが完結</span>
+<span class="t-cls">.dark</span> {
+  --color-bg-base:   <span class="t-str">#0f172a</span>;
+  --color-bg-sunken: <span class="t-str">#020617</span>;
+  --color-text-main: <span class="t-str">#f8fafc</span>;
+  --color-text-muted:<span class="t-str"> #94a3b8</span>;
+}
+
+<span class="t-cmt">// JS — クラスの付け外しだけでOK</span>
+document.documentElement.classList.toggle(<span class="t-str">'dark'</span>);
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- ======================== SECTION 02 ======================== -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-ghost">02</div>
+        <div class="section-tag">section 02</div>
+        <h2 class="section-h">意図的に<br>形式化しない領域</h2>
+        <p class="section-sub">
+          すべてを <code class="f-mono" style="font-size:0.8rem; color:var(--color-accent)">config</code>
+          に詰め込むとファイルが肥大化し、柔軟性が失われます。
+          以下の要素は「その場のコード」で書くべき領域として意図的に残しています。形式化しないことが表現力を守ります。
+        </p>
+
+        <div class="unfm-wrap reveal">
+
+          <div class="unfm-item">
+            <div class="unfm-h">
+              一過性のレイアウト調整
+              <span class="badge">任意値で記述</span>
+            </div>
+            <p class="unfm-text">
+              特定の場所だけで必要な微調整。Tailwind の任意値（Arbitrary Values）構文でその場に書きます。
+              config に登録すると、再利用されない値でファイルが汚れるうえ、他のパーツにも波及するリスクがあります。
+            </p>
+            <div class="code">
+<span class="t-cmt">&lt;!-- その場で書く ✓ --&gt;</span>
+&lt;div class=<span class="t-str">"top-[13px] left-[5%] w-[calc(100%-2rem)]"</span>&gt;
+&lt;div class=<span class="t-str">"mt-[3px] gap-[7px] translate-x-[2px]"</span>&gt;
+
+<span class="t-cmt">&lt;!-- config に追加しない ✗ --&gt;</span>
+<span class="t-cmt">// 一回しか使わない spacing をグローバル定義しない</span>
+            </div>
+          </div>
+
+          <div class="unfm-item">
+            <div class="unfm-h">
+              複雑なグラデーション
+              <span class="badge">インラインまたはユーティリティ組み合わせ</span>
+            </div>
+            <p class="unfm-text">
+              方向・色数・透明度が複雑に組み合わさるグラデーションは、ユーティリティの直接組み合わせか
+              インラインスタイルの方が直感的です。セマンティクスよりビジュアルの正確さが優先されます。
+            </p>
+            <div class="code">
+<span class="t-cmt">&lt;!-- ユーティリティ組み合わせ ✓ --&gt;</span>
+&lt;div class=<span class="t-str">"bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent"</span>&gt;
+
+<span class="t-cmt">&lt;!-- 複雑な場合はインラインスタイル ✓ --&gt;</span>
+&lt;div style=<span class="t-str">"background: radial-gradient(circle at 30% 40%, #3b82f620, transparent 60%)"</span>&gt;
+            </div>
+          </div>
+
+          <div class="unfm-item">
+            <div class="unfm-h">
+              特定ページ専用の装飾
+              <span class="badge">コンポーネント内で完結</span>
+            </div>
+            <p class="unfm-text">
+              キャンペーンバナー・LP のヒーロー装飾・期間限定プロモーション要素など、全体で使い回さないパーツは
+              標準化の対象外です。必要な場所にそのまま書き、デザインシステムを汚染しません。
+            </p>
+          </div>
+
+          <div class="unfm-item">
+            <div class="unfm-h">
+              強い世界観を持つテーマデザイン
+              <span class="badge">テーマ専用の追加実装</span>
+            </div>
+            <p class="unfm-text">
+              Tailwind は「道具箱」であり「作風」ではありません。手書き風・コミック風などの世界観は
+              Tailwind 単体では実現できず、別途追加実装が必要です。
+            </p>
+            <table class="t-table">
+              <thead>
+                <tr>
+                  <th>テーマ</th>
+                  <th>Tailwind だけでは無理な部分</th>
+                  <th>実装アプローチ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>手書き風</td>
+                  <td>完全に不規則な境界線・ガタガタした線</td>
+                  <td>SVG フィルター + 歪んだ borderRadius の多用</td>
+                </tr>
+                <tr>
+                  <td>コミック風</td>
+                  <td>極太の枠線・二重オフセット影・スクリーントーン背景</td>
+                  <td>box-shadow の多重定義 + カスタム背景画像</td>
+                </tr>
+                <tr>
+                  <td>共通</td>
+                  <td>独特なフォント（世界観の7割を決める）</td>
+                  <td>Google Fonts から font-display として読み込み Config で紐付け</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="callout">
+              <p>
+                <strong class="a">なぜ形式化しないか：</strong>
+                手書き風の美しさは「不規則であること」が源泉です。config で「標準の角丸」として定義すると、
+                すべてのパーツが同じ歪み方になり、デジタルで不自然な印象になります。<br><br>
+                <strong class="b">推奨アプローチ：</strong>
+                「土台はモダンな Tailwind 設定で作りつつ、テーマパーツだけを自由に書き込む」スタイルが最も表現力が高くなります。
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- ======================== SECTION 03 ======================== -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-ghost">03</div>
+        <div class="section-tag">section 03</div>
+        <h2 class="section-h">メンテナンスの指針</h2>
+        <p class="section-sub">
+          「何を変えたい時に、どこを触るか」を3つのルールで整理します。
+          このシステムに沿って運用すれば、変更の影響範囲が常に予測可能になります。
+        </p>
+
+        <div class="mnt-grid reveal">
+          <div class="mnt-card">
+            <div class="mnt-num">01</div>
+            <div class="mnt-trigger">色を変えたい</div>
+            <div class="mnt-action">CSS変数の値を書き換えるだけで、全コンポーネントに伝播します。コンポーネントを一つ一つ直す必要はありません。</div>
+            <span class="mnt-file">global.css</span>
+          </div>
+          <div class="mnt-card">
+            <div class="mnt-num">02</div>
+            <div class="mnt-trigger">新しいフォントを追加したい</div>
+            <div class="mnt-action">fontFamily オブジェクトにキーを追加するだけでクラス名が自動生成され、<code class="f-mono" style="font-size:0.68rem">font-*</code> として使えます。</div>
+            <span class="mnt-file">tailwind.config.js</span>
+          </div>
+          <div class="mnt-card">
+            <div class="mnt-num">03</div>
+            <div class="mnt-trigger">新しいアニメーションを作りたい</div>
+            <div class="mnt-action">汎用的なら config へ登録。その場限りなら <code class="f-mono" style="font-size:0.68rem">animate-[...]</code> でインライン記述します。</div>
+            <span class="mnt-file">config or HTML</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="fh">ファイル構成</div>
+        <ul class="file-list">
+          <li>
+            example/tailwind.config.js
+            <span class="file-desc">— テーマ定義（色・フォント・アニメーション・ブレークポイント）</span>
+          </li>
+          <li>
+            example/global.css
+            <span class="file-desc">— CSS変数の実値（ライト／ダークモード対応）</span>
+          </li>
+          <li>
+            index.html
+            <span class="file-desc">— このリファレンスページ</span>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-copy">
+        Tailwind Design System<br>
+        <span style="font-size:0.6rem; opacity:0.45;">最低限の標準化がされたデザインのために</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.getElementById('themeIcon').textContent  = isDark ? '☀' : '☽';
+      document.getElementById('themeLabel').textContent = isDark ? 'light' : 'dark';
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>
