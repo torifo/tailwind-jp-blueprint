@@ -1,0 +1,19 @@
+{
+  "name": "tailwind-jp-blueprint",
+  "version": "1.0.0",
+  "description": "Tailwind CSS 標準化テンプレート — セマンティックカラー・タイポグラフィ・アニメーション・ダークモードの最小構成",
+  "keywords": ["tailwindcss", "css", "design-system", "japanese", "template", "blueprint"],
+  "author": "torifo",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "tailwind-jp-blueprint": "./bin/init.mjs"
+  },
+  "files": [
+    "bin/",
+    "example/"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
