@@ -245,3 +245,20 @@ Tailwind は標準化の道具です。しかし、デザインにおける**個
 - アニメーション3種のループ再生
 - ブレークポイントのビジュアルガイド
 - 意図的に形式化しない領域のコード例
+
+---
+
+## Install as a skill / スキルとして導入
+
+This repo also ships a cross-agent **`SKILL.md`** (open standard) usable by both Claude Code and Codex CLI as a design-system skill. Link the repo into the agent's skills directory:
+
+このリポジトリは Claude Code / Codex CLI 共通の **`SKILL.md`**（オープン標準）も同梱し、デザインシステム・スキルとして使えます。
+
+```bash
+# Claude Code
+ln -s "$(pwd)" ~/.claude/skills/tailwind-design-system
+# Codex CLI
+ln -s "$(pwd)" ~/.codex/skills/tailwind-design-system
+```
+
+Restart the agent; it is matched automatically by the skill's `description` (skill name: `tailwind-design-system`). / エージェント再起動後、`description` に基づき自動マッチします。
